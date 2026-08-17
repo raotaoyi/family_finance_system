@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 必须与 Mapper 接口全类名一致 -->
+<mapper namespace="com.family.finance.system.mapper.FinanceBillMapper">
+    <select id="queryBillSummaryStaticList"
+            resultType="com.family.finance.system.mapper.po.FinanceBillSummaryStaticPO">
+        SELECT user_id as cd,
+        SUM(money) AS amount
+        FROM `finance_bill`
+        where
+        TYPE=2
+        <if test="query.startMonth!=null and query.startMonth!=''">
+            and DATE_FORMAT(bill_date, '%Y-%m') >= #{query.startMonth}
+        </if>
+        <if test="query.endMonth!=null and query.endMonth!=''">
+            and DATE_FORMAT(bill_date, '%Y-%m') &lt;= #{query.endMonth}
+        </if>
+        GROUP BY user_id
+    </select>
+
+    <select id="queryBillSummaryMonthTrendList"
+            resultType="com.family.finance.system.mapper.po.FinanceBillSummaryTrendPO">
+        SELECT
+        m.userName as name,
+        n.billDate as date,
+        n.amount
+        FROM `sys_user` m INNER JOIN (
+        SELECT
+        o.user_id,o.billDate,SUM(o.money) AS amount
+        FROM (
+        SELECT
+        user_id,
+        DATE_FORMAT(bill_date, '%Y-%m') AS billDate,
+        money
+        FROM `finance_bill`
+        WHERE
+        TYPE=2
+        <if test="query.startMonth!=null and query.startMonth!=''">
+            and DATE_FORMAT(bill_date, '%Y-%m') >= #{query.startMonth}
+        </if>
+        <if test="query.endMonth!=null and query.endMonth!=''">
+            and DATE_FORMAT(bill_date, '%Y-%m') &lt;= #{query.endMonth}
+        </if>
+        )o
+        GROUP BY o.user_id,o.billDate
+        )n ON m.id=n.user_id
+    </select>
+
+    <select id="queryBillSummaryStaticByCategoryList"
+            resultType="com.family.finance.system.mapper.po.FinanceBillSummaryStaticPO">
+        select
+        category_id as cd,
+        sum(money) as amount
+        from `finance_bill`
+        where
+        type=2
+        <if test="query.startMonth!=null and query.startMonth!=''">
+            and DATE_FORMAT(bill_date, '%Y-%m') >= #{query.startMonth}
+        </if>
+        <if test="query.endMonth!=null and query.endMonth!=''">
+            and DATE_FORMAT(bill_date, '%Y-%m') &lt;= #{query.endMonth}
+        </if>
+        group by category_id
+    </select>
+</mapper>

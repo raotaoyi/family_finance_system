@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 必须与 Mapper 接口全类名一致 -->
+<mapper namespace="com.family.finance.system.mapper.FinanceSummaryMapper">
+
+    <select id="queryFinanceSummaryStaticList"
+            resultType="com.family.finance.system.mapper.po.FinanceSummaryStaticPO">
+        select type as cd,
+        sum(amount) as amount
+        from `finance_summary` group by type
+    </select>
+
+    <select id="queryFinanceSummaryCategoryStaticList"
+            resultType="com.family.finance.system.mapper.po.FinanceSummaryStaticPO">
+        select
+        category as cd,
+        sum(amount) as amount
+        from `finance_summary`
+        where type = #{type} group by category
+    </select>
+</mapper>
