@@ -16,6 +16,10 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        // OPTIONS请求直接放行，不做token校验
+        if("OPTIONS".equals(request.getMethod())){
+            return true;
+        }
         String token = request.getHeader("token");
         if (token == null || token.isEmpty()) {
             response.setContentType("application/json;charset=utf-8");
