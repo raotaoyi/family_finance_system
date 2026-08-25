@@ -6,7 +6,7 @@ import lombok.Getter;
 public enum BudgetPlanCategoryEnum {
     BUDGET_PLAN_CATEGORY_TRAVEL("旅游", 15),
     BUDGET_PLAN_CATEGORY_EDUCATION("教育", 16),
-    BUDGET_PLAN_CATEGORY_INCOME("收入", 17);
+    BUDGET_PLAN_CATEGORY_INCOME("其他", 100);
 
     private final String categoryName;
 
