@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FinanceSummaryStaticVO {
 
+    private Long asset = 0L;
+
     private Long deposit = 0L;
 
     private Long cashFlow = 0L;
@@ -18,4 +20,6 @@ public class FinanceSummaryStaticVO {
     private Long debt = 0L;
 
     private Long balance = 0L;
+
+    private Long invest = 0L;
 }

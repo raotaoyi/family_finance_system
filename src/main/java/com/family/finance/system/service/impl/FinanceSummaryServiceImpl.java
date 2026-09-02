@@ -43,17 +43,19 @@ public class FinanceSummaryServiceImpl extends ServiceImpl<FinanceSummaryMapper,
                             case FINANCE_TYPE_DEBT:
                                 summaryStaticVO.setDebt(summaryStaticPO.getAmount());
                                 break;
+                            case FINANCE_TYPE_INVEST:
+                                summaryStaticVO.setInvest(summaryStaticPO.getAmount());
+                                break;
                             default:
                                 log.info("不存在");
                         }
                     }
             );
-
+            summaryStaticVO.setAsset(summaryStaticVO.getDeposit() + summaryStaticVO.getInvest());
             summaryStaticVO.setBalance(summaryStaticVO.getDeposit() - summaryStaticVO.getDebt());
             return summaryStaticVO;
         } catch (Exception e) {
             log.error("查询失败", e);
-
         }
         return FinanceSummaryStaticVO.builder().build();
     }
