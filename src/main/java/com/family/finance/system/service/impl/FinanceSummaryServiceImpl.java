@@ -52,7 +52,7 @@ public class FinanceSummaryServiceImpl extends ServiceImpl<FinanceSummaryMapper,
                     }
             );
             summaryStaticVO.setAsset(summaryStaticVO.getDeposit() + summaryStaticVO.getInvest());
-            summaryStaticVO.setBalance(summaryStaticVO.getDeposit() - summaryStaticVO.getDebt());
+            summaryStaticVO.setBalance(summaryStaticVO.getAsset() - summaryStaticVO.getDebt());
             return summaryStaticVO;
         } catch (Exception e) {
             log.error("查询失败", e);
@@ -67,10 +67,13 @@ public class FinanceSummaryServiceImpl extends ServiceImpl<FinanceSummaryMapper,
                     financeSummaryMapper.queryFinanceSummaryCategoryStaticList(type);
             List<FinanceSummaryCategoryStaticVO> categoryVOList = Lists.newArrayList();
             summaryCategoryPOList.forEach(financeSummaryCategoryPO -> {
-                categoryVOList.add(FinanceSummaryCategoryStaticVO.builder()
-                        .name(Objects.requireNonNull(FinanceCategoryEnum.getFinanceCategoryEnum(financeSummaryCategoryPO.getCd())).getCategoryName())
-                        .value(financeSummaryCategoryPO.getAmount())
-                        .build());
+                if (!Objects.isNull(financeSummaryCategoryPO.getAmount())
+                        && 0 != financeSummaryCategoryPO.getAmount()) {
+                    categoryVOList.add(FinanceSummaryCategoryStaticVO.builder()
+                            .name(Objects.requireNonNull(FinanceCategoryEnum.getFinanceCategoryEnum(financeSummaryCategoryPO.getCd())).getCategoryName())
+                            .value(financeSummaryCategoryPO.getAmount())
+                            .build());
+                }
             });
             return categoryVOList;
         } catch (Exception e) {

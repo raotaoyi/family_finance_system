@@ -9,7 +9,8 @@ public enum FinanceCategoryEnum {
     FINANCE_CATEGORY_GOLD("黄金", 3),
     FINANCE_CATEGORY_T_BOND("国债", 4),
     FINANCE_CATEGORY_HOUSING_FUND("公积金", 5),
-    FINANCE_CATEGORY_HOUSING_MORTGAGE("房贷", 6);
+    FINANCE_CATEGORY_HOUSING_MORTGAGE("房贷", 6),
+    FINANCE_CATEGORY_STOCK("股票", 7);;
 
     private final String categoryName;
 
